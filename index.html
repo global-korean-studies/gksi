@@ -828,19 +828,30 @@
 
       <div class="sub-block">
         <h3>국제 학술대회</h3>
-         <div id="domestic" class="activity-panel active">
+         <!-- 사진 그리드 -->
+  <div class="conf-grid">
+    <div class="conf-card" onclick="openLightbox(this)">
+      <img src="images/conference1.png" alt="제1회 국제학술대회 포스터" loading="lazy">
+      <div class="conf-caption">제1회 국제학술대회</div>
+    </div>
+    <!-- 다음 학술대회 추가 시 아래 복붙 -->
+    <!--
+    <div class="conf-card" onclick="openLightbox(this)">
+      <img src="images/conference2.png" alt="제2회 학술대회" loading="lazy">
+      <div class="conf-caption">제2회 학술대회</div>
+    </div>
+    -->
+  </div>
 
-    <img src="images/conference1.png" 
-         alt="제1회 국제학술대회 포스터" 
-         loading="lazy"
-         style="width:100%; max-width:320px; height:auto; display:block; border-radius:12px; margin:14px auto 20px;">
+  <ul class="activity-list">
+    <li>제1회 국제학술대회 발표</li>
+  </ul>
+</div>
 
-    <ul class="activity-list">
-      </div>
-
-      </div>
-
-      <div class="sub-block">
+<!-- 확대 lightbox -->
+<div id="lightbox" onclick="closeLightbox()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out;">
+  <img id="lightbox-img" src="" alt="" style="max-width:90vw; max-height:90vh; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+</div>
         <h3>심포지엄</h3>
         <p>주제별 심포지엄 및 특별 세미나 개최 이력을 정리하는 영역입니다.</p>
       </div>
