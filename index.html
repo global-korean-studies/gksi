@@ -555,6 +555,13 @@
         grid-template-columns: 1fr;
       }
     }
+     /* 여기에 새 CSS 추가 */
+  .conf-grid {
+    display: flex;
+    ...
+  }
+  .conf-card { ... }
+  .conf-caption { ... }
   </style>
 </head>
 <body>
@@ -1018,6 +1025,9 @@
       document.getElementById('home').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    /* 여기에 새 JavaScript 추가 */
+  function openLightbox(card) { ... }
+  function closeLightbox() { ... }
   </script>
 </body>
 </html>
