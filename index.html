@@ -765,6 +765,24 @@
 
 <footer>© 글로벌한국학연구소</footer>
 
+  <!-- 홈페이지 진입 시 뜨는 메인 팝업 -->
+<div id="main-popup" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="position: relative; background: #fff; padding: 20px; border-radius: 16px; max-width: 90vw; width: 420px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <!-- X 닫기 버튼 -->
+    <button onclick="closeMainPopup()" style="position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; padding: 0;">&times;</button>
+    
+    <h3 style="margin: 0 0 14px; color: #1f3c88; font-size: 1.2rem;">제1회 국제학술대회 안내</h3>
+    
+    <!-- 팝업 이미지 -->
+    <img src="images/conference1.png" alt="학술대회 안내 팝업" style="width: 100%; height: auto; border-radius: 8px; display: block; margin: 0 auto;">
+    
+    <!-- 하단 닫기 버튼 -->
+    <div style="margin-top: 18px;">
+      <button onclick="closeMainPopup()" style="background: #1f3c88; color: #fff; padding: 8px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem;">닫기</button>
+    </div>
+  </div>
+</div>
+  
 <div id="lightbox" onclick="closeLightbox()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out;">
   <img id="lightbox-img" src="" alt="" style="max-width:90vw; max-height:90vh; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.4);">
 </div>
@@ -800,6 +818,15 @@
 
   function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
+  }
+    // 페이지 로드 완료 시 자동으로 팝업 띄우기
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('main-popup').style.display = 'flex';
+  });
+
+  // 팝업 닫기 함수
+  function closeMainPopup() {
+    document.getElementById('main-popup').style.display = 'none';
   }
 </script>
 </body>
