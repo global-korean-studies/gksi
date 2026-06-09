@@ -819,11 +819,15 @@
   function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
   }
-    // 페이지 로드 완료 시 자동으로 팝업 띄우기
-  window.addEventListener('DOMContentLoaded', () => {
+     // 페이지 로드 완료 시 자동으로 팝업 띄우기 (안전한 방식)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('main-popup').style.display = 'flex';
+    });
+  } else {
+    // 문서가 이미 로드된 경우 바로 실행
     document.getElementById('main-popup').style.display = 'flex';
-  });
-
+  }
   // 팝업 닫기 함수
   function closeMainPopup() {
     document.getElementById('main-popup').style.display = 'none';
