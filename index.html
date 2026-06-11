@@ -448,7 +448,7 @@
 
     /* 마지막 칸 더보기 디자인 */
     .forum-item.more-overlay::after {
-      content: "+6 장";
+      content: "+ 더 보기";
       position: absolute;
       inset: 0;
       background: rgba(0, 0, 0, 0.55);
@@ -783,18 +783,18 @@
               <img src="images/학술포럼1/학술포럼1-1.jpg" alt="학술포럼 내빈 기념사진">
             </div>
             <div class="forum-item" onclick="openLightbox(this)">
-              <img src="images/학술포럼1/학술포럼1-2.jpg" alt="학술포럼 내빈 기념사진 2">
-            </div>
-            <div class="forum-item" onclick="openLightbox(this)">
-              <img src="images/학술포럼1/학술포럼1-4.jpg" alt="학술포럼 단체 사진 2">
-            </div>
-            <div class="forum-item" onclick="openLightbox(this)">
               <img src="images/학술포럼1/학술포럼1-5.jpg" alt="학술포럼 교수님 강연">
             </div>
-            <div class="forum-item" onclick="openLightbox(this)">
+            <div class="forum-item more-overlay" onclick="openLightbox(this)">
               <img src="images/학술포럼1/학술포럼1-6.jpg" alt="학술포럼 강의실 전경">
             </div>
-            <div class="forum-item more-overlay" onclick="openLightbox(this)">
+            <div class="forum-item" onclick="openLightbox(this)" style="display: none;">
+              <img src="images/학술포럼1/학술포럼1-2.jpg" alt="학술포럼 내빈 기념사진 2">
+            </div>
+            <div class="forum-item" onclick="openLightbox(this)" style="display: none;">
+              <img src="images/학술포럼1/학술포럼1-4.jpg" alt="학술포럼 단체 사진 2">
+            </div>
+            <div class="forum-item" onclick="openLightbox(this)" style="display: none;">
               <img src="images/학술포럼1/학술포럼1-7.jpg" alt="학술포럼 발표 자료">
             </div>
           </div>
@@ -804,7 +804,6 @@
 
       <ul class="activity-list" style="margin-top: 20px;">
         <li><strong>제1회 학술포럼</strong> — 2026년 6월 5일 (금) / 중앙대학교 302관 5층 국제회의실</li>
-        <li style="list-style: none; font-size: 0.9rem; color: var(--muted); margin-top: 4px;">📝 주제: AI시대의 문학과 인간의 운명 (-역사, 철학, 정치, 그리고 문학-)</li>
       </ul>
     </div>
 
