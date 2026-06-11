@@ -414,7 +414,7 @@
     /* 콤팩트 2행 4열 그리드 */
     .forum-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 8px;
       max-width: 520px; /* 전체 갤러리 최대 가로 폭 제한 */
     }
@@ -458,6 +458,12 @@
       justify-content: center;
       font-weight: 600;
       font-size: 0.9rem;
+    }
+
+    /* 라이트박스 이동 버튼 호버 효과 */
+    #lb-prev:hover, #lb-next:hover {
+      opacity: 0.7;
+      transform: scale(1.1);
     }
 
     /* 모바일 환경 대응 반응형 코드 */
@@ -916,10 +922,14 @@
   </div>
 </div>
   
-<div id="lightbox" onclick="closeLightbox()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out;">
-  <img id="lightbox-img" src="" alt="" style="max-width:90vw; max-height:90vh; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+<div id="lightbox" onclick="closeLightbox()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out; user-select: none;">
+  <div id="lb-prev" onclick="prevLightboxImg(event)" style="position:absolute; left:24px; color:#fff; font-size:3rem; cursor:pointer; padding:10px; transition:opacity 0.2s;">&#10094;</div>
+  
+  <img id="lightbox-img" src="" alt="" style="max-width:85vw; max-height:85vh; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.5); cursor:default;" onclick="event.stopPropagation()">
+  
+  <div id="lb-next" onclick="nextLightboxImg(event)" style="position:absolute; right:24px; color:#fff; font-size:3rem; cursor:pointer; padding:10px; transition:opacity 0.2s;">&#10095;</div>
 </div>
-
+  
 <script>
   function showSection(id) {
     document.getElementById('home').style.display = 'none';
@@ -941,43 +951,103 @@
     event.target.classList.add('active');
   }
 
+  // --- 라이트박스 다중 이미지 슬라이드 기능 구현 ---
+  let currentGalleryImages = []; // 현재 활성화된 갤러리의 이미지 배열
+  let currentImgIndex = 0;       // 현재 보고 있는 이미지 번호
+
   function openLightbox(card) {
-    const img = card.querySelector('img');
-    document.getElementById('lightbox-img').src = img.src;
-    document.getElementById('lightbox-img').alt = img.alt;
-    const lb = document.getElementById('lightbox');
-    lb.style.display = 'flex';
+    // 1. 클릭한 카드가 속한 그룹(포럼 그리드 내부)의 모든 이미지를 수집합니다.
+    const parentGrid = card.closest('.forum-grid') || card.closest('.conf-grid') || card.closest('.gallery-grid');
+    
+    if (parentGrid) {
+      // 그룹 내 모든 img 태그를 배열로 변환
+      const allImgs = Array.from(parentGrid.querySelectorAll('img'));
+      currentGalleryImages = allImgs.map(img => ({ src: img.src, alt: img.alt }));
+      
+      // 현재 클릭한 카드의 이미지 인덱스 찾기
+      const clickedImg = card.querySelector('img');
+      currentImgIndex = allImgs.indexOf(clickedImg);
+    } else {
+      // 독립된 카드일 경우 단일 이미지 처리
+      const img = card.querySelector('img');
+      currentGalleryImages = [{ src: img.src, alt: img.alt }];
+      currentImgIndex = 0;
+    }
+
+    updateLightbox();
+    document.getElementById('lightbox').style.display = 'flex';
+  }
+
+  function updateLightbox() {
+    if (currentGalleryImages.length === 0) return;
+    const currentData = currentGalleryImages[currentImgIndex];
+    
+    document.getElementById('lightbox-img').src = currentData.src;
+    document.getElementById('lightbox-img').alt = currentData.alt;
+
+    // 이미지 개수에 따라 이전/다음 화살표 버튼 노출 제어
+    const prevBtn = document.getElementById('lb-prev');
+    const nextBtn = document.getElementById('lb-next');
+    
+    if (prevBtn && nextBtn) {
+      if (currentGalleryImages.length > 1) {
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+      } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+      }
+    }
+  }
+
+  // 이전 사진 보기 (라이트박스 내부 버블링 방지 처리)
+  function prevLightboxImg(event) {
+    if (event) event.stopPropagation(); // 라이트박스 닫힘 방지
+    currentImgIndex = (currentImgIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+    updateLightbox();
+  }
+
+  // 다음 사진 보기
+  function nextLightboxImg(event) {
+    if (event) event.stopPropagation(); // 라이트박스 닫힘 방지
+    currentImgIndex = (currentImgIndex + 1) % currentGalleryImages.length;
+    updateLightbox();
   }
 
   function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
   }
+
+  // 키보드 방향키 제어 추가 (편의 기능)
+  document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('lightbox');
+    if (lb && lb.style.display === 'flex') {
+      if (e.key === 'ArrowLeft') prevLightboxImg();
+      if (e.key === 'ArrowRight') nextLightboxImg();
+      if (e.key === 'Escape') closeLightbox();
+    }
+  });
+
   // 팝업 표시 로직
   function checkAndShowPopup() {
-    // 브라우저 저장소에서 '숨김 만료 시간' 가져오기
     const hideUntil = localStorage.getItem('hideMainPopupUntil');
     const now = new Date().getTime();
-    
-    // 기록이 없거나, 만료 시간(24시간)이 지났으면 팝업을 띄움
     if (!hideUntil || now > parseInt(hideUntil)) {
       document.getElementById('main-popup').style.display = 'flex';
     }
   }
 
-  // 페이지 로드 시 확인 후 팝업 띄우기
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', checkAndShowPopup);
   } else {
     checkAndShowPopup();
   }
 
-  // 팝업 닫기 함수
   function closeMainPopup() {
     const checkbox = document.getElementById('hide-today-checkbox');
-    // 체크박스가 체크되어 있다면 24시간 동안 보이지 않도록 시간 저장
     if (checkbox && checkbox.checked) {
       const now = new Date().getTime();
-      const hideTime = now + (24 * 60 * 60 * 1000); // 현재 시간 + 24시간(밀리초)
+      const hideTime = now + (24 * 60 * 60 * 1000);
       localStorage.setItem('hideMainPopupUntil', hideTime.toString());
     }
     document.getElementById('main-popup').style.display = 'none';
