@@ -416,7 +416,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
-      max-width: 520px; /* 전체 갤러리 최대 가로 폭 제한 */
+      max-width: 240px; /* 전체 갤러리 최대 가로 폭 제한 */
     }
 
     .forum-item {
@@ -473,11 +473,12 @@
         align-items: center;
       }
       .forum-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 280px;
       }
       .forum-item.large {
-        grid-column: span 3;
-        grid-row: span 1;
+        grid-column: auto;
+        grid-row: auto;
         aspect-ratio: 4 / 3;
       }
     }
